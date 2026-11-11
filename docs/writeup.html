@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>GRIT Interview Hub — Round 1 write-up</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm 10mm; }
+  :root { --mid:#013D5A; --lion:#FCF3E3; --cel:#BDD3CE; --herb:#708C69; --herbd:#56704F; --mari:#F4A258; --ink:#1d2730; --muted:#5b6670; --rule:#d9d2c4; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); font-size: 8.6pt; line-height: 1.32; }
+  .page { height: 275mm; position: relative; overflow: hidden; }
+  .page + .page { break-before: page; }
+  header { display:flex; align-items:flex-end; justify-content:space-between; border-bottom: 2.5px solid var(--mid); padding-bottom: 5px; margin-bottom: 7px; }
+  header h1 { margin:0; font-size: 15pt; color: var(--mid); letter-spacing: .2px; }
+  header .sub { font-size: 8pt; color: var(--muted); text-align:right; }
+  h2 { font-size: 10.2pt; color: var(--mid); margin: 8px 0 4px; display:flex; align-items:center; gap:6px; }
+  h2 .n { display:inline-flex; width:17px; height:17px; border-radius:50%; background: var(--mari); color: var(--mid); font-size: 8.5pt; align-items:center; justify-content:center; font-weight:700; }
+  p { margin: 2px 0 4px; }
+  .lead { background: var(--lion); border-left: 3px solid var(--mari); padding: 5px 8px; margin: 0 0 4px; }
+  table { width:100%; border-collapse: collapse; font-size: 7.9pt; }
+  th { text-align:left; background: var(--mid); color:#fff; font-weight:600; padding: 3px 5px; }
+  td { padding: 2.6px 5px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fbf8f2; }
+  td b { color: var(--mid); }
+  .cols { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { border: 1px solid var(--rule); border-radius: 6px; padding: 5px 8px; background:#fff; }
+  .card h3 { margin: 0 0 3px; font-size: 8.6pt; color: var(--mid); }
+  ul { margin: 2px 0; padding-left: 14px; } li { margin: 1px 0; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 7.4pt; background: #eef4f2; padding: 0 2px; border-radius: 2px; color: var(--mid); }
+  .tag { display:inline-block; font-size: 7pt; font-weight:700; padding: 0 5px; border-radius: 8px; }
+  .t-brief { background: var(--cel); color: var(--mid); } .t-ass { background: #fde6cf; color: #7a4515; }
+  footer { position:absolute; bottom:0; left:0; right:0; border-top: 1px solid var(--rule); padding-top: 3px; font-size: 7pt; color: var(--muted); display:flex; justify-content:space-between; }
+  svg text { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+</style></head>
+<body>
+<!-- ═══════════════════════════ PAGE 1 ═══════════════════════════ -->
+<section class="page">
+  <header><h1>GRIT Interview Hub — Interview Scheduling &amp; Badge Lifecycle</h1>
+    <div class="sub">AI Product Engineer · Round 1 · Abhinav Chaudhary<br>November 2026 · prototype + Supabase/PostgreSQL backend</div></header>
+
+  <p class="lead"><b>One journey per student × badge level</b> (Novice, then Master), because each level has its own interview. Each dimension is stored separately: eligibility (computed from skills, never a flag), booking, attendance, interview, outcome, badge and malpractice case. The state the student sees is <b>derived</b> from those, so it can never contradict them.</p>
+
+  <h2><span class="n">1</span>Student interview lifecycle — state transitions</h2>
+  <svg viewBox="0 0 800 242" width="100%" role="img" aria-label="Interview journey state diagram">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#013D5A"/></marker>
+      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b23a2b"/></marker>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#94541A"/></marker></defs>
+    <g font-size="10.5" text-anchor="middle">
+      <!-- main path -->
+      <rect x="4" y="26" width="100" height="34" rx="7" fill="#fff" stroke="#9aa5ad"/><text x="54" y="47" fill="#1d2730">Not eligible</text>
+      <rect x="148" y="26" width="96" height="34" rx="7" fill="#EFF5F3" stroke="#013D5A"/><text x="196" y="47" fill="#013D5A" font-weight="700">Eligible</text>
+      <rect x="290" y="26" width="96" height="34" rx="7" fill="#EFF5F3" stroke="#013D5A"/><text x="338" y="47" fill="#013D5A" font-weight="700">Booked</text>
+      <rect x="432" y="26" width="108" height="34" rx="7" fill="#EFF5F3" stroke="#013D5A"/><text x="486" y="47" fill="#013D5A" font-weight="700">In interview</text>
+      <rect x="626" y="26" width="112" height="34" rx="7" fill="#708C69"/><text x="682" y="47" fill="#fff" font-weight="700">Badge earned</text>
+      <g fill="none" stroke="#013D5A" stroke-width="1.2">
+        <path d="M104 43H146" marker-end="url(#a)"/><path d="M244 43H288" marker-end="url(#a)"/><path d="M386 43H430" marker-end="url(#a)"/><path d="M540 43H624" marker-end="url(#a)"/>
+      </g>
+      <g font-size="8.6" fill="#5b6670">
+        <text x="126" y="18">all skills</text><text x="126" y="72">cleared</text>
+        <text x="266" y="18">books slot</text>
+        <text x="408" y="18">interviewer</text><text x="408" y="72">starts</text>
+        <text x="583" y="37" fill="#56704F" font-weight="700">Pass</text><text x="583" y="56">badge awarded</text>
+      </g>
+      <!-- booking side branches -->
+      <rect x="148" y="112" width="96" height="40" rx="7" fill="#fff" stroke="#94541A" stroke-dasharray="3 2"/><text x="196" y="129" fill="#7a4515" font-weight="700">Priority rebook</text><text x="196" y="143" font-size="8.4" fill="#5b6670">not an attempt</text>
+      <path d="M318 60V132H246" fill="none" stroke="#94541A" stroke-width="1.2" marker-end="url(#ah)"/>
+      <text x="282" y="125" font-size="8.4" fill="#7a4515">interviewer</text><text x="282" y="148" font-size="8.4" fill="#7a4515">can't attend*</text>
+      <path d="M196 112V62" fill="none" stroke="#013D5A" stroke-width="1.2" marker-end="url(#a)" stroke-dasharray="3 2"/>
+      <rect x="4" y="112" width="100" height="40" rx="7" fill="#fff" stroke="#b23a2b"/><text x="54" y="129" fill="#b23a2b" font-weight="700">Missed</text><text x="54" y="143" font-size="8.4" fill="#5b6670">an attempt · 3-day wait</text>
+      <path d="M296 60V96H54V110" fill="none" stroke="#b23a2b" stroke-width="1.2" marker-end="url(#ar)"/><text x="250" y="91" font-size="8.4" fill="#b23a2b">student no-show</text>
+      <path d="M86 112V62" fill="none" stroke="#013D5A" stroke-width="1.2" marker-end="url(#a)" stroke-dasharray="3 2"/>
+      <!-- outcome branches -->
+      <rect x="400" y="112" width="112" height="40" rx="7" fill="#FEF3E8" stroke="#F4A258"/><text x="456" y="129" fill="#7a4515" font-weight="700">Retake later</text><text x="456" y="143" font-size="8.4" fill="#5b6670">5-day cooldown</text>
+      <rect x="400" y="176" width="112" height="40" rx="7" fill="#fdecea" stroke="#b23a2b"/><text x="456" y="193" fill="#b23a2b" font-weight="700">Fail</text><text x="456" y="207" font-size="8.4" fill="#5b6670">14-day cooldown</text>
+      <path d="M486 60V110" fill="none" stroke="#94541A" stroke-width="1.2" marker-end="url(#ah)"/>
+      <path d="M530 60V196H514" fill="none" stroke="#b23a2b" stroke-width="1.2" marker-end="url(#ar)"/>
+      <path d="M400 132H372V62" fill="none" stroke="#013D5A" stroke-width="1.2" marker-end="url(#a)" stroke-dasharray="3 2"/>
+      <path d="M400 196H356V62" fill="none" stroke="#013D5A" stroke-width="1.2" marker-end="url(#a)" stroke-dasharray="3 2"/>
+      <text x="356" y="232" font-size="8.4" fill="#013D5A">cooldown ends → books attempt n+1 (new row; old kept)</text>
+      <rect x="560" y="176" width="104" height="40" rx="7" fill="#fff" stroke="#9aa5ad"/><text x="612" y="193" fill="#1d2730" font-weight="700">Attempts used</text><text x="612" y="207" font-size="8.4" fill="#5b6670">3 counted, no Pass</text>
+      <path d="M512 206H558" fill="none" stroke="#9aa5ad" stroke-width="1.2" marker-end="url(#a)"/>
+      <!-- governance -->
+      <rect x="690" y="112" width="104" height="40" rx="7" fill="#FEF3E8" stroke="#F4A258"/><text x="742" y="129" fill="#7a4515" font-weight="700">Under review</text><text x="742" y="143" font-size="8.4" fill="#5b6670">flag raised</text>
+      <rect x="690" y="196" width="104" height="40" rx="7" fill="#fdecea" stroke="#b23a2b"/><text x="742" y="213" fill="#b23a2b" font-weight="700">Nullified</text><text x="742" y="227" font-size="8.4" fill="#5b6670">history kept</text>
+      <path d="M708 60V110" fill="none" stroke="#94541A" stroke-width="1.2" marker-end="url(#ah)"/><text x="698" y="88" font-size="8.4" fill="#7a4515" text-anchor="end">flag</text>
+      <path d="M770 110V62" fill="none" stroke="#56704F" stroke-width="1.2" marker-end="url(#a)"/><text x="764" y="92" font-size="8.4" fill="#56704F" text-anchor="end">dismissed</text>
+      <path d="M742 152V194" fill="none" stroke="#b23a2b" stroke-width="1.2" marker-end="url(#ar)"/><text x="748" y="178" font-size="8.4" fill="#b23a2b" text-anchor="start">confirmed</text>
+    </g>
+  </svg>
+  <p style="font-size:7.6pt;color:#5b6670;margin:0 0 2px">* first offered to a colleague free at the same time; only if none is free does it become a priority rebook. Dashed = back into the booking loop. If the slot ends with no outcome the student sees “Awaiting result”. Master unlocks only while Novice is held.</p>
+
+  <h2><span class="n">2</span>Key transition triggers</h2>
+  <table>
+    <tr><th style="width:24%">Transition</th><th style="width:30%">Trigger (who)</th><th>Guard enforced by the database</th></tr>
+    <tr><td><b>Not eligible → Eligible</b></td><td>last required skill cleared (contest system)</td><td><code>is_eligible()</code> over skill rows + previous level held; students cannot clear their own skills</td></tr>
+    <tr><td><b>Eligible → Booked</b></td><td>student picks a slot</td><td>owner check, cooldown, attempt limit, ≥ 2 h notice, ≤ 21 days ahead, interviewer active, no time clash</td></tr>
+    <tr><td><b>Booked → Booked / Eligible</b></td><td>reschedule (max 2) / cancel (student or ops)</td><td>students stop 12 h before; ops override is audited; reschedule keeps the same attempt</td></tr>
+    <tr><td><b>Booked → In interview</b></td><td>assigned interviewer starts it</td><td>only that interviewer; from 60 min before start; attendance = present</td></tr>
+    <tr><td><b>In interview → Pass / Retake / Fail</b></td><td>assigned interviewer submits</td><td>once only; scores 1–5; ≥ 20-char feedback for non-Pass; Pass awards the badge in the same transaction</td></tr>
+    <tr><td><b>Result corrected</b></td><td>interviewer ≤ 24 h, or ops</td><td>reason required, revision row kept; a Pass is never reversed here — only through review</td></tr>
+    <tr><td><b>Earned → Under review → Nullified / Earned</b></td><td>flag (ops, or the student's interviewer) → reviewer decides</td><td>reviewer permission; confirm only after an investigation; written reason; back to Earned only when no other case is open</td></tr>
+  </table>
+
+  <h2><span class="n">3</span>Important edge cases</h2>
+  <table>
+    <tr><th style="width:30%">Case</th><th>How it is handled</th></tr>
+    <tr><td><b>Two students, same slot, same moment</b></td><td>Row lock on the slot + unique index (1 active booking per slot). Loser: “someone just booked that slot”. Proven with two live DB sessions.</td></tr>
+    <tr><td><b>Double-click / network retry</b></td><td>Idempotency key returns the original booking; advisory lock blocks two different requests for the same student × badge.</td></tr>
+    <tr><td><b>Interviewer removes availability or can't attend</b></td><td>Removing a booked window is refused. “I can't make it” reassigns to a free colleague, else priority rebook (never the student's attempt).</td></tr>
+    <tr><td><b>Interviewer forgets the outcome</b></td><td>Student sees “Awaiting result”; ops get a pending list + reminder; outcome can still be submitted.</td></tr>
+    <tr><td><b>Skill requirements change after booking</b></td><td>Booked students keep the slot (grandfathered, snapshot timestamp); unbooked students are re-evaluated instantly.</td></tr>
+    <tr><td><b>Malpractice after a Pass · two flags on one badge</b></td><td>A flag only moves the badge to review. Dismissing one case keeps it under review while another is open. Students never see evidence.</td></tr>
+    <tr><td><b>Notification delivery fails</b></td><td>Notification is queued/marked failed; the booking or result still stands (delivery is decoupled).</td></tr>
+  </table>
+  <footer><span>Prototype: claude.ai/artifact/MbQC8qMBxcGsZfaQEV8jxv (local demo mode, sample data)</span><span>Page 1 of 2</span></footer>
+</section>
+
+<!-- ═══════════════════════════ PAGE 2 ═══════════════════════════ -->
+<section class="page">
+  <header><h1>Assumptions, data model &amp; governance</h1><div class="sub">GRIT Interview Hub · Round 1</div></header>
+
+  <h2><span class="n">4</span>Product assumptions</h2>
+  <div class="cols">
+    <div class="card"><h3><span class="tag t-brief">GIVEN BY THE BRIEF</span></h3>
+      <ul><li>Interview unlocks when every required skill for the Track Badge is cleared.</li>
+        <li>Small interviewer team, each with own availability; students book from their dashboard.</li>
+        <li>Outcomes: Pass, Fail, Retake later. Pass earns the badge.</li>
+        <li>Ops see which eligible students have booked and which have not.</li>
+        <li>A badge can be nullified if malpractice is flagged later.</li></ul></div>
+    <div class="card"><h3><span class="tag t-ass">MY ASSUMPTIONS — all editable by ops, all audited</span></h3>
+      <ul><li>30-min interviews, 10-min buffer; book 2 h–21 days ahead; change until 12 h before (max 2 reschedules).</li>
+        <li>Retake later = 5-day cooldown (mirrors GRIT's 5-day re-attempt gap); Fail = 14 days; 3 counted attempts per badge.</li>
+        <li>Student no-show counts as an attempt (3-day cooldown); interviewer no-show or cancellation never does.</li>
+        <li>Interviewers correct non-Pass results within 24 h; ops after. Only reviewers decide malpractice.</li>
+        <li><b>Open questions:</b> Fail vs Retake semantics · attempt limit · appeal window · does a nullified Novice void Master?</li></ul></div>
+  </div>
+
+  <h2><span class="n">5</span>Database schema &amp; entity relationships <span style="font-weight:400;font-size:8pt;color:#5b6670">— PostgreSQL / Supabase, 3 migrations, 20 tables</span></h2>
+  <svg viewBox="0 0 800 236" width="100%" role="img" aria-label="Entity relationship diagram">
+    <defs><marker id="e" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#013D5A"/></marker></defs>
+    <g font-size="9.4">
+      <!-- group backgrounds -->
+      <rect x="2" y="2" width="168" height="230" rx="8" fill="#FCF3E3"/><text x="12" y="17" font-size="8.4" font-weight="700" fill="#94541A">IDENTITY &amp; CATALOGUE</text>
+      <rect x="180" y="2" width="410" height="230" rx="8" fill="#EFF5F3"/><text x="190" y="17" font-size="8.4" font-weight="700" fill="#013D5A">SCHEDULING &amp; INTERVIEWS</text>
+      <rect x="600" y="2" width="198" height="230" rx="8" fill="#F0F4EF"/><text x="610" y="17" font-size="8.4" font-weight="700" fill="#56704F">BADGES, GOVERNANCE, OPS</text>
+      <g fill="#fff" stroke="#013D5A" stroke-width="1">
+        <rect x="12" y="26" width="148" height="30" rx="5"/><rect x="12" y="66" width="70" height="26" rx="5"/><rect x="90" y="66" width="70" height="26" rx="5"/>
+        <rect x="12" y="110" width="148" height="30" rx="5"/><rect x="12" y="150" width="148" height="30" rx="5"/><rect x="12" y="192" width="148" height="30" rx="5"/>
+        <rect x="190" y="26" width="185" height="30" rx="5"/><rect x="190" y="72" width="185" height="40" rx="5"/><rect x="395" y="72" width="185" height="50" rx="5"/>
+        <rect x="395" y="140" width="185" height="50" rx="5"/><rect x="190" y="140" width="185" height="30" rx="5"/><rect x="190" y="192" width="185" height="30" rx="5"/><rect x="395" y="200" width="185" height="24" rx="5"/>
+        <rect x="610" y="26" width="178" height="40" rx="5"/><rect x="610" y="76" width="178" height="22" rx="5"/><rect x="610" y="108" width="178" height="40" rx="5"/><rect x="610" y="158" width="178" height="22" rx="5"/><rect x="610" y="190" width="178" height="34" rx="5"/>
+      </g>
+      <g fill="#1d2730">
+        <text x="20" y="39" font-weight="700">users</text><text x="20" y="51" font-size="8" fill="#5b6670">role · is_active · permissions</text>
+        <text x="20" y="83" font-weight="700">students</text><text x="98" y="83" font-weight="700">interviewers</text>
+        <text x="20" y="123" font-weight="700">tracks → badge_definitions</text><text x="20" y="135" font-size="8" fill="#5b6670">one row per level (Novice, Master…)</text>
+        <text x="20" y="163" font-weight="700">skills · badge_skill_req.</text><text x="20" y="175" font-size="8" fill="#5b6670">which skills unlock which level</text>
+        <text x="20" y="205" font-weight="700">student_skill_progress</text><text x="20" y="217" font-size="8" fill="#5b6670">source of computed eligibility</text>
+        <text x="198" y="39" font-weight="700">availability_windows</text><text x="198" y="51" font-size="8" fill="#5b6670">tstzrange · GiST: no overlaps</text>
+        <text x="198" y="85" font-weight="700">interview_slots</text><text x="198" y="97" font-size="8" fill="#5b6670">OPEN/BOOKED/BLOCKED/REMOVED</text><text x="198" y="107" font-size="8" fill="#5b6670">row-locked while booking</text>
+        <text x="403" y="85" font-weight="700">interview_bookings</text><text x="403" y="97" font-size="8" fill="#5b6670">unique: 1 active / slot,</text><text x="403" y="107" font-size="8" fill="#5b6670">1 active / student × badge;</text><text x="403" y="117" font-size="8" fill="#5b6670">idempotency key · reschedule chain</text>
+        <text x="403" y="153" font-weight="700">interview_attempts</text><text x="403" y="165" font-size="8" fill="#5b6670">status · attendance · outcome · scores</text><text x="403" y="175" font-size="8" fill="#5b6670">retake = new row · never deleted</text><text x="403" y="185" font-size="8" fill="#5b6670">outcome set once (trigger)</text>
+        <text x="198" y="153" font-weight="700">system_settings</text><text x="198" y="165" font-size="8" fill="#5b6670">policies (JSON, audited)</text>
+        <text x="198" y="205" font-weight="700">notifications</text><text x="198" y="217" font-size="8" fill="#5b6670">queued → delivered / failed</text>
+        <text x="403" y="216" font-weight="700">outcome_revisions</text><text x="500" y="216" font-size="8" fill="#5b6670">append-only</text>
+        <text x="618" y="39" font-weight="700">student_badges</text><text x="618" y="51" font-size="8" fill="#5b6670">EARNED / UNDER_REVIEW / NULLIFIED</text><text x="618" y="61" font-size="8" fill="#5b6670">unique per student × badge</text>
+        <text x="618" y="91" font-weight="700">badge_events</text><text x="700" y="91" font-size="8" fill="#5b6670">append-only</text>
+        <text x="618" y="121" font-weight="700">malpractice_cases</text><text x="618" y="133" font-size="8" fill="#5b6670">reporter · evidence · decision + reason</text><text x="618" y="143" font-size="8" fill="#5b6670">hidden from students (RLS)</text>
+        <text x="618" y="173" font-weight="700">case_events</text><text x="700" y="173" font-size="8" fill="#5b6670">investigation timeline</text>
+        <text x="618" y="203" font-weight="700">audit_logs</text><text x="618" y="215" font-size="8" fill="#5b6670">every write, same transaction, append-only</text>
+      </g>
+      <g fill="none" stroke="#013D5A" stroke-width="1">
+        <path d="M47 56V64" marker-end="url(#e)"/><path d="M125 56V64" marker-end="url(#e)"/>
+        <path d="M86 140V148" marker-end="url(#e)"/><path d="M86 180V190" marker-end="url(#e)"/>
+        <path d="M160 79H176V41H188" marker-end="url(#e)"/>
+        <path d="M282 56V70" marker-end="url(#e)"/><path d="M375 92H393" marker-end="url(#e)"/><path d="M487 122V138" marker-end="url(#e)"/><path d="M487 190V198" marker-end="url(#e)"/>
+        <path d="M580 165H596V46H608" marker-end="url(#e)"/><path d="M699 66V74" marker-end="url(#e)"/><path d="M699 98V106" marker-end="url(#e)"/><path d="M699 148V156" marker-end="url(#e)"/>
+        <path d="M70 92V100H176V128H460V124" stroke-dasharray="3 2" marker-end="url(#e)"/>
+      </g>
+    </g>
+  </svg>
+
+  <div class="cols" style="margin-top:2px">
+    <div>
+      <h2><span class="n">6</span>Booking concurrency protection</h2>
+      <ul>
+        <li><b>Serialise:</b> <code>book_slot()</code> takes an advisory lock per student × badge, then <code>SELECT … FOR UPDATE</code> on the slot — concurrent requests queue, then re-check status.</li>
+        <li><b>Re-validate inside the lock:</b> eligibility, cooldown, attempts, notice, horizon, interviewer active, the student's other bookings.</li>
+        <li><b>Backstop:</b> partial unique indexes (one active booking per slot; per student × badge) and GiST exclusion (no overlapping slots per interviewer).</li>
+        <li><b>Idempotent:</b> a retried request with the same key returns the original booking. Reschedules lock both slots in id order — no deadlocks.</li>
+        <li><b>Atomic:</b> slot, booking, attempt, audit and notification commit together or not at all.</li>
+      </ul>
+    </div>
+    <div>
+      <h2><span class="n">7</span>Malpractice &amp; badge governance</h2>
+      <ul>
+        <li><b>Flag ≠ decision.</b> Ops, or an interviewer who interviewed that student, may flag. The badge moves to <i>Under review</i> and stays visible to the student, with neutral wording.</li>
+        <li><b>Decide:</b> only reviewers (<code>can_review_malpractice</code>). Confirm requires an open investigation and a ≥ 15-char reason; the student is told the outcome, never the evidence.</li>
+        <li><b>Never delete:</b> nullification is a status change; <code>earned_at</code>, badge events, case timeline and audit rows are append-only (triggers).</li>
+        <li><b>Defence in depth:</b> anon has no access; signed-in users only SELECT through RLS; every write is a <code>SECURITY DEFINER</code> RPC that checks the caller from <code>auth.uid()</code>, with pinned <code>search_path</code>.</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:5px;font-size:7.6pt;color:#5b6670"><b style="color:#013D5A">Verified:</b> 41 domain tests · 94 database checks incl. RLS and privilege sweeps · 2 live two-session booking races · 42 browser checks across student, interviewer, ops, malpractice and mobile.</p>
+  <footer><span>Source, migrations, seed and tests: grit-interview-hub (README · TEST_REPORT.md)</span><span>Page 2 of 2</span></footer>
+</section>
+</body></html>

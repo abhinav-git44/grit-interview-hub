@@ -1,0 +1,60 @@
+
+Screen audit — every route, every role
+  PASS  Aarav · student-home renders
+  PASS  Aarav · student-book renders
+  PASS  Aarav · student-interviews renders
+  PASS  Aarav · student-badges renders
+  PASS  Aarav · notifications renders
+  PASS  Aarav · showcase renders
+  PASS  Aarav · every sidebar link navigates
+  PASS  Meera · interviewer-schedule renders
+  PASS  Meera · interviewer-availability renders
+  PASS  Meera · interviewer-history renders
+  PASS  Meera · notifications renders
+  PASS  Meera · every sidebar link navigates
+  PASS  Priya · admin-overview renders
+  PASS  Priya · admin-students renders
+  PASS  Priya · admin-bookings renders
+  PASS  Priya · admin-interviewers renders
+  PASS  Priya · admin-malpractice renders
+  PASS  Priya · admin-audit renders
+  PASS  Priya · admin-settings renders
+  PASS  Priya · every sidebar link navigates
+
+Student workflow
+  PASS  J1 Rohan: contest result → eligible (exact message 1) → book → confirmation (exact message 2)
+  PASS  Student can cancel outside the cutoff; slot returns to the pool
+  PASS  Student reschedules; the attempt is kept
+  PASS  Booked student inside 12 h cutoff sees changes locked with a clear explanation
+  PASS  Notification CTA navigates to the right screen
+
+Interviewer workflow
+  PASS  J2 Meera: start → validation → Pass → student sees badge (exact message 3)
+  PASS  J3 Retake later → student sees feedback + cooldown; a retake-eligible student books attempt 2, attempt 1 kept
+  PASS  Interviewer adds availability; overlap is rejected with a readable error
+  PASS  "I can't make it" reassigns the interview to a free colleague
+
+Admin workflow
+  PASS  Ops: overview KPIs and "eligible, not booked" list reflect state; nudge works; duplicate nudge explained
+  PASS  Ops: bookings — move and cancel with override
+  PASS  Ops: policy change saves and is audited
+  PASS  Ops without reviewer rights: view-only malpractice, cannot decide
+
+Malpractice workflow
+  PASS  J4 flag → investigate → dismiss → badge reinstated (student sees it)
+  PASS  J5 confirm → nullified → student dashboard + audit
+
+Concurrency + authorisation in the UI
+  PASS  J7 student cannot open ops pages
+  PASS  J6 two tabs book the same slot → exactly one succeeds, the other gets a clear error
+
+Before / after + messages
+  PASS  All 10 before/after scenarios build from real logic
+
+Mobile (390 × 844)
+  PASS  Aarav on mobile: no horizontal overflow
+  PASS  Meera on mobile: no horizontal overflow
+  PASS  Priya on mobile: no horizontal overflow
+  PASS  No uncaught page errors during the whole run
+
+42 passed, 0 failed

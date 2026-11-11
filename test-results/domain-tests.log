@@ -1,0 +1,312 @@
+TAP version 13
+# Subtest: state machine
+    # Subtest: rejects invalid transitions
+    ok 1 - rejects invalid transitions
+      ---
+      duration_ms: 0.393782
+      type: 'test'
+      ...
+    # Subtest: every status change writes an audit record
+    ok 2 - every status change writes an audit record
+      ---
+      duration_ms: 46.553426
+      type: 'test'
+      ...
+    1..2
+ok 1 - state machine
+  ---
+  duration_ms: 47.529412
+  type: 'suite'
+  ...
+# Subtest: eligibility
+    # Subtest: computed from cleared skills, not a flag
+    ok 1 - computed from cleared skills, not a flag
+      ---
+      duration_ms: 26.528973
+      type: 'test'
+      ...
+    # Subtest: master level requires the novice badge
+    ok 2 - master level requires the novice badge
+      ---
+      duration_ms: 26.578273
+      type: 'test'
+      ...
+    # Subtest: not-eligible student cannot book
+    ok 3 - not-eligible student cannot book
+      ---
+      duration_ms: 20.499987
+      type: 'test'
+      ...
+    # Subtest: requirement change: booked students are grandfathered
+    ok 4 - requirement change: booked students are grandfathered
+      ---
+      duration_ms: 29.073853
+      type: 'test'
+      ...
+    1..4
+ok 2 - eligibility
+  ---
+  duration_ms: 102.972492
+  type: 'suite'
+  ...
+# Subtest: authorisation parity with SQL
+    # Subtest: students cannot clear their own skills; the contest system and ops can
+    ok 1 - students cannot clear their own skills; the contest system and ops can
+      ---
+      duration_ms: 25.06742
+      type: 'test'
+      ...
+    # Subtest: interviewers can flag only students they interviewed
+    ok 2 - interviewers can flag only students they interviewed
+      ---
+      duration_ms: 19.52093
+      type: 'test'
+      ...
+    # Subtest: slots beyond the booking horizon are rejected
+    ok 3 - slots beyond the booking horizon are rejected
+      ---
+      duration_ms: 25.389131
+      type: 'test'
+      ...
+    # Subtest: a decided case cannot be decided again
+    ok 4 - a decided case cannot be decided again
+      ---
+      duration_ms: 25.604639
+      type: 'test'
+      ...
+    1..4
+ok 3 - authorisation parity with SQL
+  ---
+  duration_ms: 95.887775
+  type: 'suite'
+  ...
+# Subtest: booking
+    # Subtest: books a slot and sends the exact confirmation message
+    ok 1 - books a slot and sends the exact confirmation message
+      ---
+      duration_ms: 19.533885
+      type: 'test'
+      ...
+    # Subtest: RACE: two students submit the same slot concurrently → exactly one booking
+    ok 2 - RACE: two students submit the same slot concurrently → exactly one booking
+      ---
+      duration_ms: 26.939829
+      type: 'test'
+      ...
+    # Subtest: duplicate request with same idempotency key returns the original booking
+    ok 3 - duplicate request with same idempotency key returns the original booking
+      ---
+      duration_ms: 27.574193
+      type: 'test'
+      ...
+    # Subtest: cannot hold two active bookings for the same badge
+    ok 4 - cannot hold two active bookings for the same badge
+      ---
+      duration_ms: 24.274276
+      type: 'test'
+      ...
+    # Subtest: past and too-soon slots are rejected
+    ok 5 - past and too-soon slots are rejected
+      ---
+      duration_ms: 23.019799
+      type: 'test'
+      ...
+    # Subtest: a student cannot book for someone else
+    ok 6 - a student cannot book for someone else
+      ---
+      duration_ms: 31.506269
+      type: 'test'
+      ...
+    # Subtest: cancel inside the cutoff is refused for students, allowed for ops
+    ok 7 - cancel inside the cutoff is refused for students, allowed for ops
+      ---
+      duration_ms: 20.247312
+      type: 'test'
+      ...
+    # Subtest: reschedule keeps the same attempt and releases the old slot
+    ok 8 - reschedule keeps the same attempt and releases the old slot
+      ---
+      duration_ms: 26.754457
+      type: 'test'
+      ...
+    1..8
+ok 4 - booking
+  ---
+  duration_ms: 200.237716
+  type: 'suite'
+  ...
+# Subtest: availability
+    # Subtest: overlapping availability is rejected
+    ok 1 - overlapping availability is rejected
+      ---
+      duration_ms: 20.68786
+      type: 'test'
+      ...
+    # Subtest: removing a window with bookings is blocked (never silently invalidated)
+    ok 2 - removing a window with bookings is blocked (never silently invalidated)
+      ---
+      duration_ms: 29.262255
+      type: 'test'
+      ...
+    # Subtest: interviewer unavailable → reassigned to a free colleague at the same time
+    ok 3 - interviewer unavailable → reassigned to a free colleague at the same time
+      ---
+      duration_ms: 20.654189
+      type: 'test'
+      ...
+    # Subtest: interviewer unavailable with no cover → priority rebook, not counted as an attempt
+    ok 4 - interviewer unavailable with no cover → priority rebook, not counted as an attempt
+      ---
+      duration_ms: 21.792838
+      type: 'test'
+      ...
+    1..4
+ok 5 - availability
+  ---
+  duration_ms: 92.770437
+  type: 'suite'
+  ...
+# Subtest: interviews and outcomes
+    # Subtest: outcome requires a started interview; pass awards the badge and the exact pass message
+    ok 1 - outcome requires a started interview; pass awards the badge and the exact pass message
+      ---
+      duration_ms: 28.24091
+      type: 'test'
+      ...
+    # Subtest: double submission is rejected
+    ok 2 - double submission is rejected
+      ---
+      duration_ms: 21.175495
+      type: 'test'
+      ...
+    # Subtest: only the assigned interviewer can record the result
+    ok 3 - only the assigned interviewer can record the result
+      ---
+      duration_ms: 23.242347
+      type: 'test'
+      ...
+    # Subtest: retake: new attempt is created, the previous attempt is preserved
+    ok 4 - retake: new attempt is created, the previous attempt is preserved
+      ---
+      duration_ms: 34.46673
+      type: 'test'
+      ...
+    # Subtest: retake cooldown blocks early booking
+    ok 5 - retake cooldown blocks early booking
+      ---
+      duration_ms: 19.927795
+      type: 'test'
+      ...
+    # Subtest: max attempts enforced
+    ok 6 - max attempts enforced
+      ---
+      duration_ms: 19.537849
+      type: 'test'
+      ...
+    # Subtest: amending a result: inside window with reason keeps history; reversing a Pass is blocked
+    ok 7 - amending a result: inside window with reason keeps history; reversing a Pass is blocked
+      ---
+      duration_ms: 32.238267
+      type: 'test'
+      ...
+    # Subtest: interviewer cannot amend after the edit window
+    ok 8 - interviewer cannot amend after the edit window
+      ---
+      duration_ms: 19.564948
+      type: 'test'
+      ...
+    # Subtest: student no-show counts as an attempt and applies a cooldown
+    ok 9 - student no-show counts as an attempt and applies a cooldown
+      ---
+      duration_ms: 17.750828
+      type: 'test'
+      ...
+    # Subtest: forgotten outcome shows as awaiting result and can still be submitted
+    ok 10 - forgotten outcome shows as awaiting result and can still be submitted
+      ---
+      duration_ms: 22.113804
+      type: 'test'
+      ...
+    1..10
+ok 6 - interviews and outcomes
+  ---
+  duration_ms: 238.753926
+  type: 'suite'
+  ...
+# Subtest: malpractice and badges
+    # Subtest: flag puts badge under review but never nullifies on its own
+    ok 1 - flag puts badge under review but never nullifies on its own
+      ---
+      duration_ms: 31.100285
+      type: 'test'
+      ...
+    # Subtest: dismissal reinstates; confirmation nullifies and keeps history
+    ok 2 - dismissal reinstates; confirmation nullifies and keeps history
+      ---
+      duration_ms: 20.751264
+      type: 'test'
+      ...
+    # Subtest: nullification without reviewer permission is refused
+    ok 3 - nullification without reviewer permission is refused
+      ---
+      duration_ms: 19.657731
+      type: 'test'
+      ...
+    # Subtest: multiple flags: dismissing one keeps the badge under review while another is open
+    ok 4 - multiple flags: dismissing one keeps the badge under review while another is open
+      ---
+      duration_ms: 32.664758
+      type: 'test'
+      ...
+    # Subtest: student keeps several badges with different statuses
+    ok 5 - student keeps several badges with different statuses
+      ---
+      duration_ms: 19.722909
+      type: 'test'
+      ...
+    1..5
+ok 7 - malpractice and badges
+  ---
+  duration_ms: 124.131227
+  type: 'suite'
+  ...
+# Subtest: reliability
+    # Subtest: a failing step rolls back the whole transaction
+    ok 1 - a failing step rolls back the whole transaction
+      ---
+      duration_ms: 18.89913
+      type: 'test'
+      ...
+    # Subtest: notification delivery failure does not roll back the booking
+    ok 2 - notification delivery failure does not roll back the booking
+      ---
+      duration_ms: 21.606936
+      type: 'test'
+      ...
+    # Subtest: missing records raise NOT_FOUND
+    ok 3 - missing records raise NOT_FOUND
+      ---
+      duration_ms: 31.465863
+      type: 'test'
+      ...
+    # Subtest: only reviewers with settings permission can change policies
+    ok 4 - only reviewers with settings permission can change policies
+      ---
+      duration_ms: 19.697781
+      type: 'test'
+      ...
+    1..4
+ok 8 - reliability
+  ---
+  duration_ms: 91.872357
+  type: 'suite'
+  ...
+1..8
+# tests 41
+# suites 8
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1296.520446

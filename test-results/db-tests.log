@@ -1,0 +1,394 @@
+applied supabase/migrations/0001_schema.sql
+applied supabase/migrations/0002_functions.sql
+applied supabase/migrations/0003_security.sql
+── SQL suite ──
+psql:supabase/tests/10_db_tests.sql:9: NOTICE:  schema "t" does not exist, skipping
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c2
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c1
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b2
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a3
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a2
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b2
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a1
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ service_role
+
+ 
+
+ authenticated
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a3
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a3
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c1
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a3
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b2
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a2
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c2
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000a1
+
+ 
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000b1
+
+ 
+
+ 
+
+ 00000000-0000-0000-0000-0000000000c1
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ result |                                    name                                    | detail 
+--------+----------------------------------------------------------------------------+--------
+ PASS   | anon cannot read users                                                     | 
+ PASS   | anon cannot execute book_slot                                              | 
+ PASS   | anon cannot read audit_logs                                                | 
+ PASS   | signed-in role without a user id is rejected (no NULL bypass)              | 
+ PASS   | no NULL bypass on submit_outcome                                           | 
+ PASS   | admin without settings permission cannot change policies                   | 
+ PASS   | policy validation rejects unknown keys                                     | 
+ PASS   | ops lead sets booking lead time to 0 for the test run                      | 
+ PASS   | interviewer adds a near window (for live interview tests)                  | 
+ PASS   | interviewer adds a window in 2 days                                        | 
+ PASS   | overlapping availability is rejected                                       | 
+ PASS   | interviewer cannot add availability for a colleague                        | 
+ PASS   | availability in the past is rejected                                       | 
+ PASS   | second interviewer adds a matching window                                  | 
+ PASS   | slot generation: 30-min slots + 10-min buffer (120-min window → 3 slots)   | 
+ PASS   | student cannot book for another student                                    | 
+ PASS   | student cannot insert a booking directly                                   | 
+ PASS   | student cannot clear their own skills                                      | 
+ PASS   | student cannot call internal helpers                                       | 
+ PASS   | past slots are rejected                                                    | 
+ PASS   | master level needs the novice badge                                        | 
+ PASS   | eligible student books the near slot                                       | 
+ PASS   | idempotent retry returns the same booking                                  | 
+ PASS   | second active booking for the same badge is rejected                       | 
+ PASS   | booking confirmation uses the exact message title                          | 
+ PASS   | student cannot cancel inside the 12 h cutoff                               | 
+ PASS   | journey state is BOOKED                                                    | 
+ PASS   | not-eligible student cannot book                                           | 
+ PASS   | RLS: a student sees no other student's bookings                            | 
+ PASS   | RLS: a student cannot read audit logs                                      | 
+ PASS   | student cannot read another student's journey                              | 
+ PASS   | student books a far slot                                                   | 
+ PASS   | reschedule #1                                                              | 
+ PASS   | reschedule #2                                                              | 
+ PASS   | reschedule #3 exceeds the limit                                            | 
+ PASS   | reschedule keeps ONE attempt and releases old slots                        | 
+ PASS   | window with a booking cannot be removed                                    | 
+ PASS   | a booked slot cannot be blocked                                            | 
+ PASS   | interview cannot start 2 days early                                        | 
+ PASS   | reassigned to Rahul                                                        | 
+ PASS   | interviewer unavailable → reassigned to a colleague at the same time       | 
+ PASS   | RLS: an interviewer cannot see a colleague's interview                     | 
+ PASS   | another interviewer cannot start Meera's interview                         | 
+ PASS   | a student cannot record a result                                           | 
+ PASS   | outcome before the interview starts is rejected                            | 
+ PASS   | interviewer starts the interview (within 60 min of start)                  | 
+ PASS   | scores outside 1–5 are rejected                                            | 
+ PASS   | interviewer records PASS                                                   | 
+ PASS   | double submission is rejected                                              | 
+ PASS   | a Pass cannot be amended away                                              | 
+ PASS   | direct update of attempts is denied                                        | 
+ PASS   | PASS awarded the badge in the same transaction                             | 
+ PASS   | pass notification uses the exact message                                   | 
+ PASS   | trigger blocks EARNED → NULLIFIED without review (even for the owner role) | 
+ PASS   | attempts can never be deleted                                              | 
+ PASS   | audit log is append-only                                                   | 
+ PASS   | contest service records a cleared skill                                    | 
+ PASS   | eligibility recomputed + exact eligibility message sent                    | 
+ PASS   | Rohan books the second near slot                                           | 
+ PASS   | Meera starts Rohan's interview                                             | 
+ PASS   | retake needs ≥ 20 chars of feedback                                        | 
+ PASS   | Meera records RETAKE_LATER                                                 | 
+ PASS   | amendment without a reason is rejected                                     | 
+ PASS   | amendment inside the window, with reason                                   | 
+ PASS   | journey after Fail = FAIL_COOLDOWN                                         | 
+ PASS   | fail cooldown blocks rebooking                                             | 
+ PASS   | ops sets cooldowns to 0 and max attempts to 1                              | 
+ PASS   | attempt limit is enforced                                                  | 
+ PASS   | amendment keeps both revisions                                             | 
+ PASS   | interviewer cannot flag a student they never interviewed                   | 
+ PASS   | a student cannot raise a flag                                              | 
+ PASS   | assigned interviewer flags the badge                                       | 
+ PASS   | ops raises a second flag                                                   | 
+ PASS   | admin without reviewer rights cannot decide                                | 
+ PASS   | cannot confirm before an investigation                                     | 
+ PASS   | decision needs a reason                                                    | 
+ PASS   | reviewer opens an investigation                                            | 
+ PASS   | reviewer dismisses the second case                                         | 
+ PASS   | badge stays under review while another case is open                        | 
+ PASS   | reviewer confirms the first case                                           | 
+ PASS   | student sees the nullification notice                                      | 
+ PASS   | student can never read malpractice cases (evidence hidden)                 | 
+ PASS   | student sees own badge as NULLIFIED with history kept                      | 
+ PASS   | a nullified badge cannot be flagged again                                  | 
+ PASS   | interviewer sees only cases they reported                                  | 
+ PASS   | ops adds a required skill to Novice                                        | 
+ PASS   | unbooked students re-evaluated (no longer eligible)                        | 
+ PASS   | booked student keeps the booking (grandfathered)                           | 
+ PASS   | every write produced an audit record                                       | 
+ PASS   | anon can execute NO public function                                        | 
+ PASS   | no client role can INSERT/UPDATE/DELETE any public table                   | 
+ PASS   | RLS is enabled on every public table                                       | 
+ PASS   | every SECURITY DEFINER function pins search_path                           | 
+ PASS   | internal helpers (_*) are not executable by signed-in users                | 
+(94 rows)
+
+ passed | failed 
+--------+--------
+     94 |      0
+(1 row)
+
+DO
+── Concurrency ──
+Race 1: two students, one slot (19358d54-ef16-452d-8075-af91eeff17e0)
+  [A] 00000000-0000-0000-0000-0000000000d1
+  [A] session A booked a5b67de9-4e47-4dcc-8fc8-be0c7e53f83d
+  [B] 00000000-0000-0000-0000-0000000000d2
+  [B] ERROR:  SLOT_TAKEN: Sorry — someone just booked that slot. Please pick another time.
+  [B] SQL statement "SELECT _fail('SLOT_TAKEN', 'Sorry — someone just booked that slot. Please pick another time.')"
+  [B] PL/pgSQL function _validate_slot_for_booking(interview_slots,uuid,uuid) line 4 at PERFORM
+  [B] SQL statement "SELECT _validate_slot_for_booking(s, p_student, null)"
+  [B] PL/pgSQL function book_slot(uuid,uuid,uuid,text) line 23 at PERFORM
+  active bookings on the slot: 1
+PASS race 1 — exactly one booking
+Race 2: one student double-submits (different requests) for the same badge
+  [1] 00000000-0000-0000-0000-0000000000d2
+  [1] request 1 booked 5154f88e-e468-433e-beeb-d1d0971c14dd
+  [2] 00000000-0000-0000-0000-0000000000d2
+  [2] ERROR:  ALREADY_BOOKED: You already have an interview booked for this badge. Reschedule it instead.
+  [2] SQL statement "SELECT _fail('ALREADY_BOOKED', 'You already have an interview booked for this badge. Reschedule it instead.')"
+  [2] PL/pgSQL function book_slot(uuid,uuid,uuid,text) line 15 at PERFORM
+  active bookings for the student: 1
+PASS race 2 — one active booking per student × badge
+── Seed (fresh database) ──
+NOTICE:  database "grit_test_seed" does not exist, skipping
+Aarav Sharma → ELIGIBLE
+Ishita Rao → RETAKE_COOLDOWN
+Riya Patel → BOOKED
+Rohan Das → NOT_ELIGIBLE
+Tara Menon → BOOKED
+PASS seed — applied through the RPCs
